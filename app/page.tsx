@@ -1,14 +1,19 @@
 "use client";
 import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 export default function Home() {
+  const router = useRouter();
   return (
     <main className="min-h-screen bg-black text-white overflow-hidden">
       {/* Navbar */}
       <nav className="flex items-center justify-between px-8 py-6 border-b border-white/10">
         <h1 className="text-2xl font-bold">FlowMind AI</h1>
 
-        <button className="bg-white text-black px-5 py-2 rounded-full font-medium hover:scale-105 transition hover:shadow-purple-500/20 hover:shadow-xl">
+        <button
+          onClick={() => router.push("/login")}
+          className="bg-white text-black px-5 py-2 rounded-full font-medium hover:scale-105 transition hover:shadow-purple-500/20 hover:shadow-xl"
+        >
           Get Started
         </button>
       </nav>
@@ -57,7 +62,10 @@ export default function Home() {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="flex gap-4 mt-10"
           >
-            <button className="flex flex-col sm:flex-row gap-4 mt-10 w-full sm:w-auto bg-white text-black w-full sm:w-auto px-6 py-3 rounded-full font-semibold flex items-center gap-2 hover:scale-105 transition hover:shadow-purple-500/20 hover:shadow-xl">
+            <button
+              onClick={() => router.push("/login")}
+              className="flex flex-col sm:flex-row gap-4 mt-10 w-full sm:w-auto bg-white text-black w-full sm:w-auto px-6 py-3 rounded-full font-semibold flex items-center gap-2 hover:scale-105 transition hover:shadow-purple-500/20 hover:shadow-xl"
+            >
               Start Free Trial
               <ArrowRight size={18} />
             </button>

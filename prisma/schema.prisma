@@ -1,0 +1,145 @@
+generator client {
+  provider = "prisma-client-js"
+ 
+}
+
+datasource db {
+  provider = "postgresql"
+   url = env("DATABASE_URL")
+}
+
+enum Priority{
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum TaskStatus{
+  TODO
+  IN_PROGRESS
+  COMPLETED
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String?
+
+  emailVerified Boolean @default(false)
+
+  otpHash String?
+  otpExpiry DateTime?
+  otpAttempts Int @default(0)
+
+  createdAt DateTime @default(now())
+
+  projects Project[]
+  aiRequests AIRequest[]
+  aiProjectPlans AIProjectPlan[]
+  activities Activity[]
+}
+
+model Project{
+  id String @id @default(uuid())
+  name String
+  description String?
+  industry String?
+  complexity String?
+  duration String?
+  summary String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  userId String
+  user User @relation(fields: [userId], references: [id])
+  tasks Task[]
+  milestones Milestone[]
+  timelines Timeline[]
+  risks Risk[]
+  techStack TechStack[]
+}
+
+model Task{
+  id String @id @default(uuid())
+  title String
+  completed Boolean @default(false)
+
+  priority Priority @default(MEDIUM)
+  status TaskStatus @default(TODO)
+  
+  createdAt DateTime @default(now())
+
+  projectId String
+  project Project @relation(fields: [projectId], references: [id],onDelete: Cascade)
+}
+
+
+model AIRequest{
+  id String @id @default(uuid())
+
+  prompt String
+  response String
+  createdAt DateTime @default(now())
+
+  userId String
+  user User @relation(fields: [userId],references: [id])
+
+}
+
+model AIProjectPlan{
+  id String @id @default(uuid())
+
+  idea String
+  projectName String
+  description String
+  generatedTasks Json?
+  createdAt DateTime @default(now())
+
+  userId String
+  user User @relation(fields: [userId],references: [id])
+}
+
+model Activity{
+  id String @id @default(uuid())
+  type String
+  message String
+  createdAt DateTime @default(now())
+  userId String
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Milestone{
+  id String @id @default(cuid())
+  title String
+
+  projectId String
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
+
+model Timeline{
+  id String @id @default(cuid())
+
+  week String
+  description String
+
+  projectId String
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
+
+model Risk{
+  id String @id @default(cuid())
+  description String
+  severity String
+  projectId String
+  project Project @relation(fields: [projectId],references: [id],onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
+
+model TechStack{
+  id String @id @default(uuid())
+  name String
+  projectId String
+  project Project @relation(fields: [projectId],references: [id],onDelete: Cascade)
+}
