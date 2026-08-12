@@ -74,7 +74,7 @@ export default function ProjectsPage() {
   return (
     <div className="min-h-screen bg-slate-100">
       <Sidebar />
-      <main className="ml-64  p-8">
+      <main className="min-w-0 w-full pt-16 md:ml-64 md:w-[calc(100%-16rem)] md:pt-0">
         <div className="mb-6">
           <h2 className="text-2xl font-semibold text-slate-700">
             Welcome back 👋

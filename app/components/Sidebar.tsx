@@ -1,3 +1,5 @@
+"use client";
+
 import {
   LayoutDashboard,
   FolderKanban,
@@ -6,101 +8,163 @@ import {
   History,
   LogOut,
   Bot,
+  Menu,
+  X,
 } from "lucide-react";
 
 import Link from "next/link";
-
-import { usePathname } from "next/navigation";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function Sidebar() {
   const router = useRouter();
   const pathname = usePathname();
+  const [mobileOpen, setMobileOpen] = useState(false);
+
   const handleLogout = () => {
     localStorage.removeItem("token");
     router.push("/login");
   };
-  return (
-    <aside className="fixed top-0 left-0 h-screen w-64 bg-slate-900 border-r border-slate-800 text-white flex flex-col p-6">
-      {/* // <aside className="flex-1 ml-72 p-8 overflow-auto"> */}
-      <h1 className="text-2xl font-bold">FlowMind AI</h1>
 
-      <nav className="mt-10 flex flex-col gap-4">
+  const handleNavigation = () => {
+    setMobileOpen(false);
+  };
+
+  const navItems = [
+    {
+      href: "/dashboard",
+      label: "Dashboard",
+      icon: LayoutDashboard,
+    },
+    {
+      href: "/projects",
+      label: "Projects",
+      icon: FolderKanban,
+    },
+    {
+      href: "/tasks",
+      label: "Tasks",
+      icon: CheckSquare,
+    },
+    {
+      href: "/ai-planner",
+      label: "AI Planner",
+      icon: Brain,
+    },
+    {
+      href: "/ai-workflow",
+      label: "AI Workflow",
+      icon: Bot,
+    },
+    {
+      href: "/ai-history",
+      label: "Workflow History",
+      icon: History,
+    },
+  ];
+
+  const navigation = (
+    <nav className="mt-8 flex flex-col gap-3">
+      {navItems.map(({ href, label, icon: Icon }) => (
         <Link
-          href="/dashboard"
-          className={`flex items-center gap-3 p-3 rounded-lg ${
-            pathname === "/dashboard"
+          key={href}
+          href={href}
+          onClick={handleNavigation}
+          className={`flex items-center gap-3 rounded-lg p-3 transition-colors ${
+            pathname === href
               ? "bg-blue-600 text-white"
               : "text-gray-300 hover:bg-slate-800"
           }`}
         >
-          <LayoutDashboard size={20} />
-          Dashboard
+          <Icon size={20} />
+          <span>{label}</span>
         </Link>
-        <Link
-          href="/projects"
-          className={`flex items-center gap-3 p-3 rounded-lg ${
-            pathname === "/projects"
-              ? "bg-blue-600 text-white"
-              : "text-gray-300 hover:bg-slate-800"
-          }`}
-        >
-          <FolderKanban size={20} />
-          Projects
-        </Link>
-        <Link
-          href="/tasks"
-          className={`flex items-center gap-3 p-3 rounded-lg ${
-            pathname === "/tasks"
-              ? "bg-blue-600 text-white"
-              : "text-gray-300 hover:bg-slate-800"
-          }`}
-        >
-          <CheckSquare size={20} />
-          Tasks
-        </Link>
-        <Link
-          href="/ai-planner"
-          className={`flex items-center gap-3 p-3 rounded-lg ${
-            pathname === "/ai-planner"
-              ? "bg-blue-600 text-white"
-              : "text-gray-300 hover:bg-slate-800"
-          }`}
-        >
-          <Brain size={20} />
-          AI Planner
-        </Link>
-        <Link
-          href="/ai-workflow"
-          className={`flex items-center gap-3 p-3 rounded-lg ${
-            pathname === "/ai-workflow"
-              ? "bg-blue-600 text-white"
-              : "text-gray-300 hover:bg-slate-800"
-          }`}
-        >
-          <Bot size={20} />
-          <span>AI Workflow</span>
-        </Link>
-        <Link
-          href="/ai-history"
-          className={`flex items-center gap-3 p-3 rounded-lg ${
-            pathname === "/ai-history"
-              ? "bg-blue-600 text-white"
-              : "text-gray-300 hover:bg-slate-800"
-          }`}
-        >
-          <History size={20} /> Workflow History
-        </Link>
-      </nav>
-      <div className="mt-auto p-4">
+      ))}
+    </nav>
+  );
+
+  return (
+    <>
+      {/* =========================
+          MOBILE HEADER
+      ========================== */}
+      <header className="fixed left-0 right-0 top-0 z-40 flex h-16 items-center justify-between border-b border-slate-800 bg-slate-900 px-4 md:hidden">
+        <h1 className="text-xl font-bold text-white">FlowMind AI</h1>
+
         <button
-          onClick={handleLogout}
-          className="w-full flex items-center justify-center gap-2 rounded-xl bg-red-500 px-4 py-3 text-white hover:bg-red-600 transition-all"
+          type="button"
+          onClick={() => setMobileOpen(true)}
+          className="rounded-lg p-2 text-white transition-colors hover:bg-slate-800"
+          aria-label="Open navigation menu"
         >
-          <LogOut size={18} />
-          Logout
+          <Menu size={26} />
         </button>
-      </div>
-    </aside>
+      </header>
+
+      {/* =========================
+          MOBILE OVERLAY
+      ========================== */}
+      {mobileOpen && (
+        <button
+          type="button"
+          aria-label="Close navigation menu"
+          onClick={() => setMobileOpen(false)}
+          className="fixed inset-0 z-40 bg-black/50 md:hidden"
+        />
+      )}
+
+      {/* =========================
+          MOBILE DRAWER
+      ========================== */}
+      <aside
+        className={`fixed left-0 top-0 z-50 flex h-screen w-72 flex-col border-r border-slate-800 bg-slate-900 p-6 text-white transition-transform duration-300 md:hidden ${
+          mobileOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        <div className="flex items-center justify-between">
+          <h1 className="text-2xl font-bold">FlowMind AI</h1>
+
+          <button
+            type="button"
+            onClick={() => setMobileOpen(false)}
+            className="rounded-lg p-2 text-gray-300 hover:bg-slate-800 hover:text-white"
+            aria-label="Close navigation menu"
+          >
+            <X size={24} />
+          </button>
+        </div>
+
+        {navigation}
+
+        <div className="mt-auto pt-6">
+          <button
+            onClick={handleLogout}
+            className="flex w-full items-center justify-center gap-2 rounded-xl bg-red-500 px-4 py-3 text-white transition-all hover:bg-red-600"
+          >
+            <LogOut size={18} />
+            Logout
+          </button>
+        </div>
+      </aside>
+
+      {/* =========================
+          DESKTOP SIDEBAR
+      ========================== */}
+      <aside className="fixed left-0 top-0 z-30 hidden h-screen w-64 flex-col border-r border-slate-800 bg-slate-900 p-6 text-white md:flex">
+        <h1 className="text-2xl font-bold">FlowMind AI</h1>
+
+        {navigation}
+
+        <div className="mt-auto p-0">
+          <button
+            onClick={handleLogout}
+            className="flex w-full items-center justify-center gap-2 rounded-xl bg-red-500 px-4 py-3 text-white transition-all hover:bg-red-600"
+          >
+            <LogOut size={18} />
+            Logout
+          </button>
+        </div>
+      </aside>
+    </>
   );
 }

@@ -93,9 +93,9 @@ export default function AuthPage() {
     }
   };
   return (
-    <div className="min-h-screen flex bg-black">
+    <div className="min-h-screen flex flex-col lg:flex-row bg-black">
       {/* Left Section */}
-      <div className="flex-1 relative overflow-hidden bg-black">
+      <div className="relative hidden flex-1 overflow-hidden bg-black lg:block">
         {/* <div
           className="absolute top-20 left-20 z-50"
           style={{
@@ -183,8 +183,8 @@ export default function AuthPage() {
         <h1 className="text-white text-6xl">LEFT SIDE</h1>
       </div> */}
       {/* Right Section */}
-      <div className="w-[500px] lg:w-[500px] flex items-center justify-center p-8 bg-slate-950/80 border-1 border-slate-800">
-        <div className="w-full max-w-md rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-10 shadow-2xl">
+      <div className="w-full lg:w-[500px] flex shrink-0 items-center justify-center p-4 sm:p-8 bg-slate-950/80 border border-slate-800">
+        <div className="w-full max-w-md rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl backdrop-blur-xl sm:p-10">
           {/* <AnimatePresence mode="wait"> */}
           {isLogin ? (
             <>
@@ -192,40 +192,6 @@ export default function AuthPage() {
                 Welcome Back
               </h1>
 
-              {/* <GoogleLogin
-                  onSuccess={async (credentialResponse) => {
-                    const response = await fetch("/api/auth/google", {
-                      method: "POST",
-                      headers: {
-                        "Content-Type": "application/json",
-                      },
-                      body: JSON.stringify({
-                        credential: credentialResponse.credential,
-                      }),
-                    });
-
-                    const data = await response.json();
-
-                    if (data.token) {
-                      localStorage.setItem("token", data.token);
-                      router.push("/dashboard");
-                    }
-                  }}
-                  onError={() => {
-                    setError("Google Login Failed");
-                  }}
-                /> */}
-              {/* <button
-                  onClick={handleGoogleLogin}
-                  className="w-full mb-4 flex items-center justify-center gap-3 rounded-xl border border-slate-700 bg-slate-900 px-4 py-3 text-white hover:border-blue-500 hover:bg-slate-800 transition-all"
-                >
-                  <img
-                    src="https://www.svgrepo.com/show/475656/google-color.svg"
-                    alt="Google"
-                    className="h-5 w-5"
-                  />
-                  Continue with Google
-                </button> */}
               <div className="mb-6">
                 <GoogleLogin
                   onSuccess={handleGoogleLogin}
@@ -265,11 +231,11 @@ export default function AuthPage() {
                 Login
               </button>
 
-              <p className="mt-4 text-center text-slate-700">
+              <p className="mt-4 text-center text-slate-400">
                 Don't have an account?
                 <button
                   onClick={() => setIsLogin(false)}
-                  className="ml-2 text-blue-600 cursor-pointer"
+                  className="ml-2 text-blue-400 cursor-pointer"
                 >
                   Register
                 </button>

@@ -47,7 +47,7 @@ export default function AIHistoryPage() {
   return (
     <div className="min-h-screen bg-slate-100">
       <Sidebar />
-      <main className="ml-64 p-8">
+      <main className="min-w-0 w-full pt-16 md:ml-64 md:w-[calc(100%-16rem)] md:pt-0">
         <div className="flex-1 p-10">
           <h1 className="text-5xl font-bold text-slate-900">AI History</h1>
           <p className="mt-2 text-slate-500">

@@ -94,7 +94,7 @@ export default function TaskPage() {
     <div className="flex min-h-screen bg-slate-100">
       <Sidebar />
 
-      <main className="ml-64 flex-1 p-8 overflow-auto">
+      <main className="min-w-0 w-full flex-1 overflow-auto p-4 pt-20 md:ml-64 md:w-auto md:p-8 md:pt-8">
         {/* Header */}
 
         <div className="mb-8">

@@ -139,7 +139,7 @@ export default function DashboardPage() {
     <div className="min-h-screen bg-slate-100">
       <Sidebar />
 
-      <main className="ml-64 p-8">
+      <main className="min-w-0 w-full pt-16 md:ml-64 md:w-[calc(100%-16rem)] md:pt-0">
         <div className="mb-8">
           <h1 className="text-5xl font-bold text-slate-900">
             Welcome back, {user?.name || "User"} 👋
