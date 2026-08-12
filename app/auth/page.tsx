@@ -183,7 +183,7 @@ export default function AuthPage() {
         <h1 className="text-white text-6xl">LEFT SIDE</h1>
       </div> */}
       {/* Right Section */}
-      <div className="w-full lg:w-[500px] flex shrink-0 items-center justify-center p-4 sm:p-8 bg-slate-950/80 border border-slate-800">
+      <div className="flex min-h-screen w-full shrink-0 items-center justify-center border border-slate-800 bg-slate-950/80 p-4 sm:p-8 lg:w-[500px]">
         <div className="w-full max-w-md rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl backdrop-blur-xl sm:p-10">
           {/* <AnimatePresence mode="wait"> */}
           {isLogin ? (
@@ -213,7 +213,7 @@ export default function AuthPage() {
                 placeholder="Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full text-white border p-3 rounded-lg mb-4 placeholder:text-slate-500"
+                className="w-full rounded-lg border border-slate-700 bg-slate-900/60 p-3 text-white placeholder:text-slate-500 outline-none focus:border-blue-500"
               />
 
               <input
@@ -221,7 +221,7 @@ export default function AuthPage() {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full text-white border p-3 rounded-lg mb-4 placeholder:text-slate-500"
+                className="w-full rounded-lg border border-slate-700 bg-slate-900/60 p-3 text-white placeholder:text-slate-500 outline-none focus:border-blue-500"
               />
               {error && <p className="text-red-500 text-sm">{error}</p>}
               <button
@@ -257,14 +257,14 @@ export default function AuthPage() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Name"
-                className="w-full text-white border p-3 rounded-lg mb-4 placeholder:text-slate-500"
+                className="w-full rounded-lg border border-slate-700 bg-slate-900/60 p-3 text-white placeholder:text-slate-500 outline-none focus:border-blue-500"
               />
 
               <input
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Email"
-                className="w-full text-white border p-3 rounded-lg mb-4 placeholder:text-slate-500"
+                className="w-full rounded-lg border border-slate-700 bg-slate-900/60 p-3 text-white placeholder:text-slate-500 outline-none focus:border-blue-500"
               />
 
               <input
@@ -272,7 +272,7 @@ export default function AuthPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Password"
                 type="password"
-                className="w-full text-white border p-3 rounded-lg mb-4 placeholder:text-slate-500"
+                className="w-full rounded-lg border border-slate-700 bg-slate-900/60 p-3 text-white placeholder:text-slate-500 outline-none focus:border-blue-500"
               />
               {error && <p className="text-sm text-red-500">{error}</p>}
               <button
@@ -283,11 +283,11 @@ export default function AuthPage() {
                 Register
               </button>
 
-              <p className="mt-4 text-center text-slate-700">
+              <p className="mt-4 text-center text-slate-400">
                 Already have an account?
                 <button
                   onClick={() => setIsLogin(true)}
-                  className="ml-2 text-blue-600"
+                  className="ml-2 text-blue-400 cursor-pointer"
                 >
                   Login
                 </button>
