@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { GoogleLogin } from "@react-oauth/google";
 import { CredentialResponse } from "@react-oauth/google";
@@ -10,11 +10,11 @@ export default function AuthPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
+  // const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [onError, setOnError] = useState("");
-  const handleGoogleLogin = async (credentialResponse: CredentialResponse) => {
+  // const [onError, setOnError] = useState("");
+  const handleGoogleAuth = async (credentialResponse: CredentialResponse) => {
     try {
       const response = await fetch("/api/auth/google", {
         method: "POST",
@@ -65,33 +65,33 @@ export default function AuthPage() {
       setLoading(false);
     }
   };
-  const handleRegister = async () => {
-    console.log("Register clicked");
-    try {
-      const response = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name,
-          email,
-          password,
-        }),
-      });
-      const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.error || "Registration Failed");
-      }
-      router.push(`/verify-otp?email=${encodeURIComponent(data.user.email)}`);
+  // const handleRegister = async () => {
+  //   console.log("Register clicked");
+  //   try {
+  //     const response = await fetch("/api/auth/register", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         name,
+  //         email,
+  //         password,
+  //       }),
+  //     });
+  //     const data = await response.json();
+  //     if (!response.ok) {
+  //       throw new Error(data.error || "Registration Failed");
+  //     }
+  //     router.push(`/verify-otp?email=${encodeURIComponent(data.user.email)}`);
 
-      // router.push("/login");
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+  //     // router.push("/login");
+  //   } catch (err: any) {
+  //     setError(err.message);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
   return (
     <div className="min-h-screen flex flex-col lg:flex-row bg-black">
       {/* Left Section */}
@@ -194,7 +194,7 @@ export default function AuthPage() {
 
               <div className="mb-6">
                 <GoogleLogin
-                  onSuccess={handleGoogleLogin}
+                  onSuccess={handleGoogleAuth}
                   onError={() => console.log("Login Failed")}
                 />
               </div>
@@ -249,45 +249,33 @@ export default function AuthPage() {
               exit={{ opacity: 0, x: -40 }}
               transition={{ duration: 0.3 }}
             >
-              <h1 className="text-3xl font-bold mb-6 text-white">
+              <h1 className="mb-6 text-3xl font-bold text-white">
                 Create Account
               </h1>
 
-              <input
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Name"
-                className="w-full rounded-lg border border-slate-700 bg-slate-900/60 p-3 text-white placeholder:text-slate-500 outline-none focus:border-blue-500"
-              />
+              <p className="mb-6 text-slate-400">
+                Create your FlowMind account securely with Google.
+              </p>
 
-              <input
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Email"
-                className="w-full rounded-lg border border-slate-700 bg-slate-900/60 p-3 text-white placeholder:text-slate-500 outline-none focus:border-blue-500"
-              />
+              <div className="flex justify-center">
+                <GoogleLogin
+                  onSuccess={handleGoogleAuth}
+                  onError={() => setError("Google authentication failed")}
+                />
+              </div>
 
-              <input
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Password"
-                type="password"
-                className="w-full rounded-lg border border-slate-700 bg-slate-900/60 p-3 text-white placeholder:text-slate-500 outline-none focus:border-blue-500"
-              />
-              {error && <p className="text-sm text-red-500">{error}</p>}
-              <button
-                type="submit"
-                className="w-full cursor-pointer bg-green-600 text-white p-3 rounded-lg"
-                onClick={handleRegister}
-              >
-                Register
-              </button>
+              {error && (
+                <p className="mt-4 text-center text-sm text-red-500">{error}</p>
+              )}
 
-              <p className="mt-4 text-center text-slate-400">
+              <p className="mt-6 text-center text-slate-400">
                 Already have an account?
                 <button
-                  onClick={() => setIsLogin(true)}
-                  className="ml-2 text-blue-400 cursor-pointer"
+                  onClick={() => {
+                    setError("");
+                    setIsLogin(true);
+                  }}
+                  className="ml-2 cursor-pointer text-blue-400"
                 >
                   Login
                 </button>

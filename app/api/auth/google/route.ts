@@ -7,14 +7,14 @@ const client = new OAuth2Client(process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID);
 export async function POST(req: NextRequest) {
   try {
     const { credential } = await req.json();
-    console.log(credential);
+
     const ticket = await client.verifyIdToken({
       idToken: credential,
       audience: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
     });
 
     const payload = ticket.getPayload();
-    if (!payload?.email) {
+    if (!payload?.email || !payload.email_verified) {
       return NextResponse.json(
         { error: "Invalid Google User" },
         { status: 400 },
